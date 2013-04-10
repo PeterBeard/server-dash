@@ -1,0 +1,115 @@
+@import url(reset.css);
+/* Typography */
+body {
+	font: 18px/21px Helvetica, Arial, sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+	color: #f0f0f0;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin-top: 0.75em;
+	text-shadow: 1px 2px rgba(0,0,0,0.25);
+}
+h1 {
+	font-size: 2em;
+}
+em {
+	color: #f0f0f0;
+}
+strong {
+	font-weight: bold;
+}
+
+p.error {
+	background: #d33 none;
+	border: 1px solid #a00;
+	border-radius: 2px;
+	border-top-color: #f33;
+	box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+	color: #fff;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding: 1em;
+	text-align: center;
+	text-shadow: 1px 2px 0 rgba(0,0,0,0.25);
+}
+
+body {
+	background: #111 none;
+	color: #999;
+}
+
+#container {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.statusbox {
+	background: #292929 none;
+	border-radius: 2px;
+	border: 1px solid #191919;
+	border-top-color: #363636;
+	box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+	float: left;
+	height: 170px;
+	margin: 9px;
+	padding: 10px;
+	width: 280px;
+}
+.statusbox h2 {
+	color: #ccc;
+	font-size: 1.5em;
+	line-height: 1em;
+	margin: 0 0 1.5em 0;
+	padding: 0;
+}
+.statusbox span.bigtext {
+	color: #fff;
+	font-size: 3em;
+	padding: 0 0.1em;
+}
+.statusbox span.medtext {
+	color: #cbe900;
+	font-size: 2em;
+}
+.statusbox span.smalltext {
+	color: #aaa;
+	font-size: 0.8em;
+}
+.statusbox p {
+	line-height: 1.2em;
+	margin: 0.75em 0;
+}
+
+table {
+	background-color: #222;
+	border: 1px solid #191919;
+	border-top-color: #333;
+	border-radius: 2px;
+	box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+	font-size: 1.1em;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	width: 100%;
+}
+table th,table td,table tr {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+table td,table th {
+	padding: 0.4em;
+}
+table th {
+	font-weight: bold;
+}
+table tr:nth-child(2n+1) {
+	background-color: #2a2a2a;
+}
+table tr:hover {
+	background-color: #f0f0f0;
+	color: #333;
+}
