@@ -22,15 +22,42 @@ $statusimgs = array(
 		var initialized = false;
 		function updateStats()
 		{
-			$("#uptime").load("ajax/uptime.php");
-			$("#mem").load("ajax/mem.php");
-			$("#cpu").load("ajax/cpu.php");
+			// Uptime
+			$.getJSON("json/uptime.php", function(data) {
+				var day_pl = (data.days == 1) ? '' : 's';
+				var hr_pl = (data.hours == 1) ? '' : 's';
+				var min_pl = (data.minutes == 1) ? '' : 's';
+				var sec_pl = (data.seconds == 1) ? '' : 's';
+				
+				$('#uptime').html('<h2>Uptime</h2>');
+				var p = $('#uptime').append('<p></p>');
+				p.append('<span class="bigtext">' + data.days + '</span>&nbsp;<span class="medtext">day' + day_pl + '</span>');
+				p = $('#uptime').append('<p></p>');
+				p.append('<span class="smalltext">' + data.hours + ' hour' + hr_pl + ', ' + data.minutes + ' minute' + min_pl + ', ' + data.seconds + ' second' + sec_pl + '</span>');
+			});
+			// Memory
+			$.getJSON("json/mem.php", function(data) {
+				$('#mem').html('<h2>Memory</h2>');
+				var p = $('#mem').append('<p></p>');
+				p.append('<span class="bigtext">' + data.usedmemory + '&nbsp;' + data.units + '</span>&nbsp;used');
+				p = $('#mem').append('<p></p>');
+				p.append('<span class="medtext">/&nbsp;' + data.totalmemory + '&nbsp;' + data.units + '</span>&nbsp;total');
+			});
+			// System load
+			$.getJSON("json/cpu.php", function(data) {
+				$('#cpu').html('<h2>System Load</h2>');
+				var p = $('#cpu').append('<p></p>');
+				p.append('<span class="bigtext">' + data.oneminuteload + '</span>');
+				p = $('#cpu').append('<p></p>');
+				p.append('<span class="smalltext">5 min:&nbsp;' + data.fiveminuteload + ' / 15 min:&nbsp;' + data.fifteenminuteload + '<br />' + data.numberofprocesses + ' running processes</span>');
+			});
+			
 			if(!initialized)
 			{
-				$("#disks").load("ajax/hd.php");
-				$("#distro").load("ajax/os.php");
-				$("#cpuinfo").load("ajax/cpuinfo.php");
-				$("#packages").load("ajax/package-versions.php");
+				$("#disks").load("json/hd.php");
+				$("#distro").load("json/os.php");
+				$("#cpuinfo").load("json/cpuinfo.php");
+				$("#packages").load("json/package-versions.php");
 			}
 			initialized = true;
 		}

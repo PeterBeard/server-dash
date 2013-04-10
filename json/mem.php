@@ -24,6 +24,8 @@ while($total >= 1024)
 	$pindex++;
 }
 ?>
-<h2>Memory</h2>
-<p><span class="bigtext"><?php printf('%3.1f',$used); ?>&nbsp;<?php echo $prefixes[$pindex]; ?>B</span>&nbsp;used</p>
-<p><span class="medtext">/&nbsp;<?php printf('%3.1f',$total); ?>&nbsp;<?php echo $prefixes[$pindex]; ?>B</span>&nbsp;total</p>
+{
+	"usedmemory":"<?php printf('%3.1f',$used); ?>",
+    "totalmemory":"<?php printf('%3.1f',$total); ?>",
+    "units":"<?php echo $prefixes[$pindex]; ?>B"
+}
