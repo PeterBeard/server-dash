@@ -68,11 +68,11 @@ body {
 .statusbox span.bigtext {
 	color: #fff;
 	font-size: 3em;
-	padding: 0 0.1em;
+	padding-right: 0.1em;
 }
 .statusbox span.medtext {
 	color: #cbe900;
-	font-size: 2em;
+	font-size: 1.8em;
 }
 .statusbox span.smalltext {
 	color: #aaa;

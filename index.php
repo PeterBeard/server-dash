@@ -51,13 +51,20 @@ $statusimgs = array(
 				p = $('#cpu').append('<p></p>');
 				p.append('<span class="smalltext">5 min:&nbsp;' + data.fiveminuteload + ' / 15 min:&nbsp;' + data.fifteenminuteload + '<br />' + data.numberofprocesses + ' running processes</span>');
 			});
-			
+			// These only need to happen once when the page loads
 			if(!initialized)
 			{
 				$("#disks").load("json/hd.php");
 				$("#distro").load("json/os.php");
 				$("#cpuinfo").load("json/cpuinfo.php");
-				$("#packages").load("json/package-versions.php");
+				// Installed packages and available updates
+				$.getJSON("json/packages.php", function(data) {
+					$('#packages').html('<h2>Packages</h2>');
+					var p = $('#packages').append('<p></p>');
+					p.append('<span class="bigtext">' + data.installed + '</span>&nbsp;<span class="medtext">packages</span><br /><span class="smalltext">' + data.updates + ' updates, ' + data.securityupdates + ' security updates.</span>');
+					p = $('#mem').append('<p></p>');
+					p.append('<span class="medtext">/&nbsp;' + data.totalmemory + '&nbsp;' + data.units + '</span>&nbsp;total');
+				});
 			}
 			initialized = true;
 		}
