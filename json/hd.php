@@ -14,21 +14,18 @@ foreach($disk_info as $line)
 	}
 }
 ?>
-<table>
-    <tr>
-        <th>Device</th>
-        <th>Mount Point</th>
-        <th>Space Used</th>
-        <th>Space Available</th>
-        <th>Total Size</th>
-    </tr>
-    <?php foreach($disks as $disk): ?>
-    <tr>
-    	<td><?php echo $disk['device']; ?></td>
-        <td><?php echo $disk['mountpoint']; ?></td>
-        <td><?php echo $disk['used']; ?></td>
-        <td><?php echo $disk['available']; ?></td>
-        <td><?php echo $disk['total']; ?></td>
-    </tr>
-    <?php endforeach; ?>
-</table>
+{
+	"diskcount":"<?php echo count($disks); ?>",
+    "disks":
+    [
+    	<?php foreach($disks as $disk): ?>
+        {
+        	"device":"<?php echo $disk['device']; ?>",
+            "mountpoint":"<?php echo $disk['mountpoint']; ?>",
+            "used":"<?php echo $disk['used']; ?>",
+            "available":"<?php echo $disk['available']; ?>",
+            "total":"<?php echo $disk['total']; ?>"
+        }<?php echo $disk != $disks[count($disks)-1] ? "," : ""; ?>
+        <?php endforeach; ?>
+    ]
+}

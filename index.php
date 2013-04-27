@@ -32,31 +32,42 @@ $statusimgs = array(
 				var sec_pl = (data.seconds == 1) ? '' : 's';
 				
 				$('#uptime').html('<h2>Uptime</h2>');
-				var p = $('#uptime').append('<p></p>');
-				p.append('<span class="bigtext">' + data.days + '</span>&nbsp;<span class="medtext">day' + day_pl + '</span>');
-				p = $('#uptime').append('<p></p>');
-				p.append('<span class="smalltext">' + data.hours + ' hour' + hr_pl + ', ' + data.minutes + ' minute' + min_pl + ', ' + data.seconds + ' second' + sec_pl + '</span>');
+				$('#uptime').append('<p><span class="bigtext">' + data.days + '</span>&nbsp;<span class="medtext">day' + day_pl + '</span></p>');
+				$("#uptime").append('<p><span class="smalltext">' + data.hours + ' hour' + hr_pl + ', ' + data.minutes + ' minute' + min_pl + ', ' + data.seconds + ' second' + sec_pl + '</span></p>');
 			});
 			// Memory
 			$.getJSON("json/mem.php", function(data) {
 				$('#mem').html('<h2>Memory</h2>');
-				var p = $('#mem').append('<p></p>');
-				p.append('<span class="bigtext">' + data.usedmemory + '&nbsp;' + data.units + '</span>&nbsp;used');
-				p = $('#mem').append('<p></p>');
-				p.append('<span class="medtext">/&nbsp;' + data.totalmemory + '&nbsp;' + data.units + '</span>&nbsp;total');
+				$('#mem').append('<p><span class="bigtext">' + data.usedmemory + '&nbsp;' + data.units + '</span>&nbsp;used</p>');
+				$('#mem').append('<p><span class="medtext">/&nbsp;' + data.totalmemory + '&nbsp;' + data.units + '</span>&nbsp;total</p>');
 			});
 			// System load
 			$.getJSON("json/cpu.php", function(data) {
 				$('#cpu').html('<h2>System Load</h2>');
-				var p = $('#cpu').append('<p></p>');
-				p.append('<span class="bigtext">' + data.oneminuteload + '</span>');
-				p = $('#cpu').append('<p></p>');
-				p.append('<span class="smalltext">5 min:&nbsp;' + data.fiveminuteload + ' / 15 min:&nbsp;' + data.fifteenminuteload + '<br />' + data.numberofprocesses + ' running processes</span>');
+				$('#cpu').append('<p><span class="bigtext">' + data.oneminuteload + '</span></p>');
+				$('#cpu').append('<p><span class="smalltext">5 min:&nbsp;' + data.fiveminuteload + ' / 15 min:&nbsp;' + data.fifteenminuteload + '<br />' + data.numberofprocesses + ' running processes</span></p>');
 			});
 			// These only need to happen once when the page loads
 			if(!initialized)
 			{
-				$("#disks").load("json/hd.php");
+				//$("#disks").load("json/hd.php");
+				// Load information about mounted disks
+				$.getJSON("json/hd.php", function(data) {
+					// Generate table headings
+					var table = $("<table></table>");
+					table.append("<tr><th>Device</th><th>Mount Point</th><th>Space Used</th><th>Space Available</th><th>Total Size</th></tr>");
+					for(var i=0; i<data.diskcount; i++)
+					{
+						var row = $("<tr></tr>");
+						row.append("<td>" + data.disks[i].device + "</td>");
+						row.append("<td>" + data.disks[i].mountpoint + "</td>");
+						row.append("<td>" + data.disks[i].used + "</td>");
+						row.append("<td>" + data.disks[i].available + "</td>");
+						row.append("<td>" + data.disks[i].total + "</td>");
+						table.append(row);
+					}
+					$("#disks").append(table);
+				});
 				// Operating system information
 				$.getJSON("json/os.php", function(data) {
 					$("#distro").html("<h2>OS Info</h2>");
@@ -69,10 +80,8 @@ $statusimgs = array(
 					// Determine whether 'core' should be plural
 					var corepl = data.cores != 1 ? "s" : "";
 					$("#cpuinfo").html("<h2>CPU Info</h2>");
-					var p = $("#cpuinfo").append("<p></p>");
-					p.append("CPU: <em>" + data.cpuname + "</em>");
-					p = $("#cpuinfo").append("<p></p>");
-					p.append("Speed: <em>" + data.cores + " core" + corepl + " @ " + data.speedmhz + "&nbsp; MHz</em>");
+					$("#cpuinfo").append("<p>CPU: <em>" + data.cpuname + "</em></p>");
+					$("#cpuinfo").append("<p>Speed: <em>" + data.cores + " core" + corepl + " @ " + data.speedmhz + "&nbsp; MHz</em></p>");
 					
 				});
 				// Installed packages and available updates
@@ -82,8 +91,7 @@ $statusimgs = array(
 					var updatepl = data.updates != 1 ? "s" : "";
 					
 					$('#packages').html('<h2>Packages</h2>');
-					var p = $('#packages').append('<p></p>');
-					p.append('<span class="bigtext">' + data.installed + '</span>&nbsp;<span class="medtext">packages</span><br /><span class="smalltext">' + data.updates + ' update' + updatepl + ', ' + data.securityupdates + ' security update' + secpl + '.</span>');
+					$('#packages').append('<p><span class="bigtext">' + data.installed + '</span>&nbsp;<span class="medtext">packages</span><br /><span class="smalltext">' + data.updates + ' update' + updatepl + ', ' + data.securityupdates + ' security update' + secpl + '.</span></p>');
 				});
 			}
 			initialized = true;
