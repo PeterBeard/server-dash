@@ -1,5 +1,6 @@
-<!DOCTYPE html>
 <?php
+//require_once('Config.php');
+
 $ip = $_SERVER['REMOTE_ADDR'];
 
 $services = array(
@@ -13,6 +14,7 @@ $statusimgs = array(
 	'ok' => 'images/icons/accept.png'
 );
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Server Dashboard</title>
@@ -55,15 +57,33 @@ $statusimgs = array(
 			if(!initialized)
 			{
 				$("#disks").load("json/hd.php");
-				$("#distro").load("json/os.php");
-				$("#cpuinfo").load("json/cpuinfo.php");
+				// Operating system information
+				$.getJSON("json/os.php", function(data) {
+					$("#distro").html("<h2>OS Info</h2>");
+					$("#distro").append("<p>OS: <em>" + data.os + "</em></p>");
+					$("#distro").append("<p>Kernel: <em>" + data.kernel + "</em></p>");
+					$("#distro").append("<p>Platform: <em>" + data.platform + "</em></p>");
+				});
+				// CPU information
+				$.getJSON("json/cpuinfo.php", function(data) {
+					// Determine whether 'core' should be plural
+					var corepl = data.cores != 1 ? "s" : "";
+					$("#cpuinfo").html("<h2>CPU Info</h2>");
+					var p = $("#cpuinfo").append("<p></p>");
+					p.append("CPU: <em>" + data.cpuname + "</em>");
+					p = $("#cpuinfo").append("<p></p>");
+					p.append("Speed: <em>" + data.cores + " core" + corepl + " @ " + data.speedmhz + "&nbsp; MHz</em>");
+					
+				});
 				// Installed packages and available updates
 				$.getJSON("json/packages.php", function(data) {
+					// Correct pluralization
+					var secpl = data.securityupdates != 1 ? "s" : "";
+					var updatepl = data.updates != 1 ? "s" : "";
+					
 					$('#packages').html('<h2>Packages</h2>');
 					var p = $('#packages').append('<p></p>');
-					p.append('<span class="bigtext">' + data.installed + '</span>&nbsp;<span class="medtext">packages</span><br /><span class="smalltext">' + data.updates + ' updates, ' + data.securityupdates + ' security updates.</span>');
-					p = $('#mem').append('<p></p>');
-					p.append('<span class="medtext">/&nbsp;' + data.totalmemory + '&nbsp;' + data.units + '</span>&nbsp;total');
+					p.append('<span class="bigtext">' + data.installed + '</span>&nbsp;<span class="medtext">packages</span><br /><span class="smalltext">' + data.updates + ' update' + updatepl + ', ' + data.securityupdates + ' security update' + secpl + '.</span>');
 				});
 			}
 			initialized = true;

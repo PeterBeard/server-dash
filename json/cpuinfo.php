@@ -17,8 +17,9 @@ foreach($stats as $line)
 		$ncores = $matches[1];
 	}
 }
-$corepl = ($ncores == 1) ? '' : 's';
 ?>
-<h2>CPU Info</h2>
-<p>CPU:&nbsp;<em><?php echo $cpuname; ?></em></p>
-<p>Speed:&nbsp;<em><?php echo $ncores; ?> core<?php echo $corepl; ?> @ <?php printf('%4.0f',$cpuspeed); ?> MHz</em></p>
+{
+	"cpuname":"<?php echo $cpuname; ?>",
+    "cores":"<?php echo $ncores; ?>",
+    "speedmhz":"<?php printf('%4.0f',$cpuspeed); ?>"
+}

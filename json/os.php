@@ -9,7 +9,8 @@ if(preg_match('/Description:\s+(.+)/',$os_info[0],$matches))
 	$os_name = $matches[1];
 }
 ?>
-<h2>OS Info</h2>
-<p>OS:&nbsp;<em><?php echo $os_name; ?></em></p>
-<p>Kernel:&nbsp;<em><?php echo $kernel_info[0]; ?></em></p>
-<p>Platform:&nbsp;<em><?php echo $kernel_platform[0]; ?></em></p>
+{
+	"os":"<?php echo $os_name; ?>",
+    "kernel":"<?php echo $kernel_info[0]; ?>",
+    "platform":"<?php echo $kernel_platform[0]; ?>"
+}
