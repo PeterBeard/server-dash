@@ -13,6 +13,15 @@ $services = array(
 $statusimgs = array(
 	'ok' => 'images/icons/accept.png'
 );
+
+// Check if a reboot is required
+$reboot_text = file_get_contents('/var/run/reboot-required');
+$reboot_packages = file_get_contents('/var/run/reboot-required.pkgs');
+$reboot_required = '';
+if(!empty($reboot_text))
+{
+    $reboot_required = "<p class=\"error\">$reboot_text</p>";
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,6 +50,7 @@ $statusimgs = array(
     <body>
         <div id="container">
             <h1>Server Dashboard</h1>
+            <?php echo $reboot_required; ?>
             <div class="statusbox" id="uptime"></div>
             <div class="statusbox" id="loadavg"></div>
             <div class="statusbox" id="meminfo"></div>
