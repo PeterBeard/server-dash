@@ -4,7 +4,7 @@ exec('df -h', $disk_info);
 
 foreach($disk_info as $line)
 {
-	if(preg_match('/(\/[^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+).+(\/[^\s]*)/',$line,$matches))
+	if(preg_match('/(\/[^\s]+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)[^\/]+(\/[^\s]*)/',$line,$matches))
 	{
 		$total = preg_replace('/([\d\.]+)(\w)/','$1&nbsp;$2',$matches[2]);
 		$used = preg_replace('/([\d\.]+)(\w)/','$1&nbsp;$2',$matches[3]);
