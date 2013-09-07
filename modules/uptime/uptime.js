@@ -2,7 +2,7 @@
 // Peter Beard - 2013-04-27
 
 // Attach handler to displayupdate event to update on every tick
-$(document).on("displayupdate", function(e) {
+$(document).on("liveupdate", function(e) {
 	// Uptime
 	$.getJSON("modules/uptime/uptime.php", function(data) {
 		var day_pl = (data.days == 1) ? '' : 's';

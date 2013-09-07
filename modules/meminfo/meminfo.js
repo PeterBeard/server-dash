@@ -2,7 +2,7 @@
 // Peter Beard - 2013-04-27
 
 // Attach handler to displayupdate event to update on every tick
-$(document).on("displayupdate", function(e) {
+$(document).on("liveupdate", function(e) {
 	// Memory
 	$.getJSON("modules/meminfo/meminfo.php", function(data) {
 		$('#meminfo').html('<h2>Memory</h2>');

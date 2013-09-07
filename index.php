@@ -26,14 +26,14 @@ $statusimgs = array(
 		{
 			// Trigger live-updating modules
 			$.event.trigger({
-				type: "displayupdate"
+				type: "liveupdate"
 			});
 		}
 		$(document).ready(function() {
 			updateStats();
 			setInterval(updateStats, 1000);
 			$.event.trigger({
-				type: "loadonce"
+				type: "singleupdate"
 			});
 		});
 		</script>

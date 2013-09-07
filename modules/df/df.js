@@ -2,7 +2,7 @@
 // Peter Beard - 2013-04-27
 
 // Attach handler to loadonce event to update this code only when the page loads
-$(document).on("loadonce", function(e) {
+$(document).on("singleupdate", function(e) {
 	// Load information about mounted disks
 	$.getJSON("modules/df/df.php", function(data) {
 		// Generate table headings

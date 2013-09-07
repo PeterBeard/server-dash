@@ -2,7 +2,7 @@
 // Peter Beard - 2013-04-27
 
 // Attach handler to loadonce event to update this code only when the page loads
-$(document).on("loadonce", function(e) {
+$(document).on("singleupdate", function(e) {
 	// CPU information
 	$.getJSON("modules/cpuinfo/cpuinfo.php", function(data) {
 		// Determine whether 'core' should be plural
