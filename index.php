@@ -21,12 +21,9 @@ $index = 0;
 foreach($services as $s)
 {
     $headers = @get_headers($s['url']);
-    var_dump($s['name']);
-    var_dump($headers);
     // If a 500-series or a 404 code is returned, the service is inaccessible
     if(!$headers || stristr($headers[0],'404') || preg_match('/5\d\d/',$headers[0]))
     {
-        var_dump('ERROR');
         $services[$index]['status'] = 'error';
     }
     $index++;
