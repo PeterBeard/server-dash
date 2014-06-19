@@ -2,25 +2,51 @@
 //require_once('Config.php');
 
 $ip = $_SERVER['REMOTE_ADDR'];
+$server_ip = $_SERVER['SERVER_ADDR'];
+
+// Figure out our network address
+$local_slash_24 = '';
+preg_match('/(\d+\.\d+\.\d+)\.\d+/', $server_ip, $matches);
+$local_slash_24 = $matches[1];
 
 $services = array(
-	array('name'=>'Sick Beard', 'port'=>'8080', 'url'=>'http://10.0.0.100:8080/home/', 'status'=>'ok'),
-	array('name'=>'CouchPotato', 'port'=>'5050', 'url'=>'http://10.0.0.100:5050/', 'status'=>'ok'),
-	array('name'=>'SABNzbd+', 'port'=>'9090', 'url'=>'http://10.0.0.100:9090/', 'status'=>'ok'),
-	array('name'=>'Transmission', 'port'=>'9091', 'url'=>'http://10.0.0.100:9091/transmisson/web', 'status'=>'ok'),
+	array('name'=>'Sick Beard', 'port'=>'8080', 'url'=>'http://'.$server_ip.':8080/home/', 'status'=>'ok'),
+	array('name'=>'CouchPotato', 'port'=>'5050', 'url'=>'http://'.$server_ip.':5050/', 'status'=>'ok'),
+	array('name'=>'SABNzbd+', 'port'=>'9090', 'url'=>'http://'.$server_ip.':9090/', 'status'=>'ok'),
+	array('name'=>'Transmission', 'port'=>'9091', 'url'=>'http://'.$server_ip.':9091/transmission/web', 'status'=>'ok'),
 );
 
+// Check the HTTP headers returned by each service to see if they're available
+$index = 0;
+foreach($services as $s)
+{
+    $headers = @get_headers($s['url']);
+    var_dump($s['name']);
+    var_dump($headers);
+    // If a 500-series or a 404 code is returned, the service is inaccessible
+    if(!$headers || stristr($headers[0],'404') || preg_match('/5\d\d/',$headers[0]))
+    {
+        var_dump('ERROR');
+        $services[$index]['status'] = 'error';
+    }
+    $index++;
+}
+// Icons corresponding to statuses
 $statusimgs = array(
-	'ok' => 'images/icons/accept.png'
+	'ok' => 'images/icons/accept.png',
+    'error' => 'images/icons/error.png'
 );
 
 // Check if a reboot is required
-$reboot_text = file_get_contents('/var/run/reboot-required');
-$reboot_packages = file_get_contents('/var/run/reboot-required.pkgs');
-$reboot_required = '';
-if(!empty($reboot_text))
+if(file_exists('/var/run/reboot-required'))
 {
-    $reboot_required = "<p class=\"error\">$reboot_text</p>";
+    $reboot_text = file_get_contents('/var/run/reboot-required');
+    $reboot_packages = file_get_contents('/var/run/reboot-required.pkgs');
+    $reboot_required = '';
+    if(!empty($reboot_text))
+    {
+        $reboot_required = "<p class=\"error\">$reboot_text</p>";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -60,7 +86,7 @@ if(!empty($reboot_text))
             <div id="df">
             </div>
             <h1>LAN Services</h1>
-            <?php if(stristr($ip,'10.0.0.')): ?>
+            <?php if(stristr($ip,$local_slash_24)): ?>
             <table>
             	<tr>
                 	<th></th>
@@ -77,7 +103,7 @@ if(!empty($reboot_text))
                 </tr>
                 <?php endforeach; ?>
                 <tr>
-                	<td><a href="http://10.0.0.100/phpmyadmin/"><img src="images/icons/cog_edit.png" alt="Web interface" title="View web interface" /></a></td>
+                	<td><a href="http://<?php echo $server_ip; ?>/phpmyadmin/"><img src="images/icons/cog_edit.png" alt="Web interface" title="View web interface" /></a></td>
                     <td>PHPMyAdmin</td>
                     <td>80</td>
                     <td><img src="<?php echo $statusimgs['ok']; ?>" alt="ok" title="ok" /></td>
