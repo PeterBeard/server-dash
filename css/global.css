@@ -35,6 +35,19 @@ p.error {
 	text-align: center;
 	text-shadow: 1px 2px 0 rgba(0,0,0,0.25);
 }
+p.info {
+	background: #dd3 none;
+	border: 1px solid #aa0;
+	border-radius: 2px;
+	border-top-color: #ff3;
+	box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+	color: #fff;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding: 1em;
+	text-align: center;
+	text-shadow: 1px 2px 0 rgba(0,0,0,0.25);
+}
 
 body {
 	background: #111 none;

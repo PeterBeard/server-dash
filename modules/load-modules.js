@@ -1,4 +1,4 @@
-var enabledModules = ["loadavg","meminfo","uptime","cpuinfo","df","osinfo","dpkg"];
+var enabledModules = ["loadavg","meminfo","uptime","cpuinfo","df","osinfo","dpkg","netinfo"];
 
 // Load enabled modules
 $.each(enabledModules, function(index, module) {

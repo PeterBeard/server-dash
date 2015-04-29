@@ -14,6 +14,7 @@ $services = array(
 	array('name'=>'CouchPotato', 'port'=>'5050', 'url'=>'http://'.$server_ip.':5050/', 'status'=>'ok'),
 	array('name'=>'SABNzbd+', 'port'=>'9090', 'url'=>'http://'.$server_ip.':9090/', 'status'=>'ok'),
 	array('name'=>'Transmission', 'port'=>'9091', 'url'=>'http://'.$server_ip.':9091/transmission/web', 'status'=>'ok'),
+	array('name'=>'Seafile', 'port'=>'8000', 'url'=>'http://'.$server_ip.':8000/', 'status'=>'ok'),
 );
 
 // Check the HTTP headers returned by each service to see if they're available
@@ -24,7 +25,9 @@ foreach($services as $s)
     // If a 500-series or a 404 code is returned, the service is inaccessible
     if(!$headers || stristr($headers[0],'404') || preg_match('/5\d\d/',$headers[0]))
     {
+        $code = $headers[0];
         $services[$index]['status'] = 'error';
+        $services[$index]['detail'] = $headers[0];
     }
     $index++;
 }
@@ -82,6 +85,9 @@ if(file_exists('/var/run/reboot-required'))
             <h1>Disks</h1>
             <div id="df">
             </div>
+
+            <h1>Network</h1>
+            <div id="netinfo"></div>
             <h1>LAN Services</h1>
             <?php if(stristr($ip,$local_slash_24)): ?>
             <table>
